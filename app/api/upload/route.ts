@@ -12,7 +12,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploaded, setUploaded] = useState(null);
-    const inputRef = useRef(null);
+    //const inputRef = useRef(null);
 
     const jsonResponse = await handleUpload({
       body,
