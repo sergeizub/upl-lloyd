@@ -1,6 +1,6 @@
+"use client";
 import { handleUpload, type HandleUploadBody } from '@vercel/blob/client'
 import { NextResponse } from 'next/server'
-import Head from "next/head";
 import { useRef, useState } from "react";
 import { getFile, uploadFile } from "@/libs/storage";
 
