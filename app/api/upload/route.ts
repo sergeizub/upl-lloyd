@@ -1,10 +1,19 @@
 import { handleUpload, type HandleUploadBody } from '@vercel/blob/client'
 import { NextResponse } from 'next/server'
+import Head from "next/head";
+import { useRef, useState } from "react";
+import { getFile, uploadFile } from "@/libs/storage";
+
 
 export async function POST(request: Request): Promise<NextResponse> {
   const body = (await request.json()) as HandleUploadBody
 
   try {
+
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [uploaded, setUploaded] = useState(null);
+    const inputRef = useRef(null);
+
     const jsonResponse = await handleUpload({
       body,
       request,
@@ -22,6 +31,11 @@ export async function POST(request: Request): Promise<NextResponse> {
           }
         },
       onUploadCompleted: async ({ blob, tokenPayload }) => {
+
+        const folder = "user/";
+        const imagePath = await uploadFile(selectedFile, folder);
+        const imageUrl = await getFile(imagePath);
+        
         // Get notified of client upload completion
         // ⚠️ This will not work during development (localhost),
         // Unless you use ngrok or a similar service to expose and test your local server
