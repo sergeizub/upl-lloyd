@@ -1,4 +1,4 @@
-import { storage } from "./config/firebase";
+import { storage } from "@/components/firebasecfg";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { nanoid } from "nanoid";
 
