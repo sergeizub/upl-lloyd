@@ -2,7 +2,7 @@
 import { handleUpload, type HandleUploadBody } from '@vercel/blob/client'
 import { NextResponse } from 'next/server'
 import { useRef, useState } from "react";
-import { getFile, uploadFile } from "./libs/storage";
+import { getFile, uploadFile } from "libs/storage";
 
 
 export async function POST(request: Request): Promise<NextResponse> {
