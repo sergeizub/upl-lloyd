@@ -1,9 +1,71 @@
 'use client'
+import React, { useState } from "react";
+import { ref, uploadBytes } from "firebase/storage";
+import { storage } from "./firebasecfg"; 
 
-import { useState, type FormEvent } from 'react'
+const Uploader = () => {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleFileChange = (event) => {
+    if (event.target.files[0]) {
+      setSelectedFile(event.target.files[0]);
+    }
+  };
+
+  const handleUpload = async () => {
+    if (!selectedFile) return;
+
+    setIsUploading(true);
+    const storageRef = ref(storage, `uploads/${selectedFile.name}`);
+
+    try {
+      const uploadTask = uploadBytes(storageRef, selectedFile);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setUploadProgress(progress);
+        },
+        (error) => {
+          console.error("Upload failed:", error);
+          setIsUploading(false);
+        },
+        () => {
+          console.log("Upload complete!");
+          setIsUploading(false);
+          setSelectedFile(null); // Clear selected file after upload
+          setUploadProgress(0);
+        }
+      );
+    } catch (error) {
+      console.error("Error during upload:", error);
+      setIsUploading(false);
+    }
+  };
+
+  return (
+    <div>
+      <input type="file" onChange={handleFileChange} />
+      <button onClick={handleUpload} disabled={!selectedFile || isUploading}>
+        {isUploading ? `Uploading (${uploadProgress.toFixed(2)}%)` : "Upload File"}
+      </button>
+      {isUploading && <p>Upload in progress...</p>}
+      {!isUploading && selectedFile && <p>File selected: {selectedFile.name}</p>}
+    </div>
+  );
+};
+
+export default Uploader;
+
+/*import { useState, type FormEvent } from 'react'
 import toast from 'react-hot-toast'
 import { upload } from '@vercel/blob/client'
 import ProgressBar from './progress-bar'
+import { ref, uploadBytes } from "firebase/storage";
+import { storage } from "../firebasecfg";
 
 export default function Uploader() {
   const [preview, setPreview] = useState<string | null>(null)
@@ -207,4 +269,4 @@ export default function Uploader() {
       </div>
     </form>
   )
-}
+}*/
