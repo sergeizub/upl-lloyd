@@ -11,7 +11,7 @@ export const uploadFile = async (file, folder) => {
       `${folder}${filename}.${file.name.split(".").pop()}`
     );
     const res = await uploadBytes(storageRef, file);
-
+    console.log(res);
     return res.metadata.fullPath;
   } catch (error) {
     throw error;
