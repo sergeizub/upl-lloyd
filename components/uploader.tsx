@@ -1,6 +1,6 @@
 'use client'
 
-import { getFile, useState, type FormEvent } from 'react'
+import { useRef,useState, type FormEvent } from 'react'
 import toast from 'react-hot-toast'
 import { upload } from '@vercel/blob/client'
 import ProgressBar from './progress-bar'
