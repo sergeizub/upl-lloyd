@@ -32,8 +32,8 @@ export async function POST(request: Request): Promise<NextResponse> {
         },
       onUploadCompleted: async ({ blob, tokenPayload }) => {
 
-        const folder = "user/";
-        const imagePath = await uploadFile(selectedFile, folder);
+        //const folder = "user/";
+        //const imagePath = await uploadFile(selectedFile, folder);
         //const imageUrl = await getFile(imagePath);
         
         // Get notified of client upload completion
